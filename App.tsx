@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+
+import { AppRoutes } from '@/routes'
+import { theme } from '@/themes'
+import { StatusBar } from 'react-native'
+import { ThemeProvider } from 'styled-components/native'
+
+import { useFonts } from 'expo-font'
+import {
+  RobotoSlab_400Regular,
+  RobotoSlab_500Medium,
+} from '@expo-google-fonts/roboto-slab'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [fontsLoaded] = useFonts({
+    RobotoSlab_400Regular,
+    RobotoSlab_500Medium,
+  })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return null
+  }
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#232129' }}>
+      <ThemeProvider theme={theme}>
+        <StatusBar
+          backgroundColor={'transparent'}
+          translucent
+          barStyle={'light-content'}
+        />
+
+        <AppRoutes />
+      </ThemeProvider>
+    </GestureHandlerRootView>
+  )
+}
